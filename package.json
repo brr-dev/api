@@ -1,0 +1,9 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "A base API controller written in Typescript with handy generics and easy inheritance.",
+  "main": "index.js",
+  "repository": "https://github.com/bramirez96/base-api",
+  "author": "Brandon Ramirez <brandon@brr.dev>",
+  "license": "MIT"
+}
