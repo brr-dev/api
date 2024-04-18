@@ -33,9 +33,13 @@ export class API {
     /** Configured base URL for the API instance. */
     protected _baseURL: string;
 
+    /** Headers that get applied to every request. */
+    protected _headers: Record<string, string>;
+
     /** Build an API controller configured with the given settings. */
-    constructor({ baseURL = "" }: APISettings = {}) {
+    constructor({ baseURL = "", headers = {} }: APISettings = {}) {
         this._baseURL = this._cleanupStr(baseURL);
+        this._headers = headers;
     }
 
     /** Create a new instance of the _API class with new defaults. */
@@ -50,19 +54,26 @@ export class API {
         QueryType = Record<string, string>,
     >(
         path: string,
-        { baseURL, query, ...fetchOpts }: APIFetchOptions<BodyType, QueryType>,
+        {
+            baseURL,
+            query,
+            headers = {},
+            ...fetchOpts
+        }: APIFetchOptions<BodyType, QueryType>,
     ): Promise<ResponseType> {
         const url = this._getURL<QueryType>(path, query, baseURL);
+        headers = Object.assign(this._headers, headers);
 
         if (fetchOpts.body && typeof fetchOpts.body !== "string") {
             fetchOpts.body = JSON.stringify(fetchOpts.body) as BodyType;
-
-            fetchOpts.headers ??= {};
-            fetchOpts.headers["Content-type"] ??= "application/json";
+            headers["Content-type"] ??= "application/json";
         }
 
         try {
-            const res = await fetch(url, fetchOpts as RequestInit);
+            const res = await fetch(url, {
+                headers,
+                ...fetchOpts,
+            } as RequestInit);
             return await res.json();
         } catch (err) {
             // Log out the error

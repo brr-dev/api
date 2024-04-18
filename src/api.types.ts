@@ -2,6 +2,7 @@
 
 export type APISettings = {
     baseURL?: string;
+    headers?: Record<string, string>;
 };
 
 export type APIFetchOptions<
@@ -12,5 +13,4 @@ export type APIFetchOptions<
         query?: QueryType;
         method?: string;
         body?: BodyType;
-        headers?: Record<string, string>;
     };
