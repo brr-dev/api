@@ -11,6 +11,9 @@
   "author": "Brandon Ramirez <brandon@brr.dev>",
   "license": "MIT",
   "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "scripts": {
     "build": "rm -rf dist && tsc",
     "test": "jest",
