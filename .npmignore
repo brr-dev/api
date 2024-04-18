@@ -1,0 +1,10 @@
+dist
+node_modules
+src
+.prettierrc
+.gitignore
+.npmignore
+jest.config.cjs
+yarn.lock
+package-lock.json
+tsconfig.json
