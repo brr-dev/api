@@ -1,16 +1,25 @@
 {
-  "name": "api",
-  "version": "1.0.0",
+  "name": "@brr-dev/api",
+  "version": "1.0.2",
   "description": "A base API controller written in Typescript with handy generics and easy inheritance.",
-  "main": "index.js",
-  "repository": "https://github.com/bramirez96/base-api",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist"
+  ],
+  "repository": "https://github.com/brr-dev/api",
   "author": "Brandon Ramirez <brandon@brr.dev>",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "build": "rm -rf dist && tsc",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn format && yarn test",
+    "version": "yarn format && git add -A src",
+    "postVersion": "git push && git push --tags"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
