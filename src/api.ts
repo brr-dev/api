@@ -2,7 +2,7 @@
 
 import { APIFetchOptions, APISettings } from "./api.types";
 
-export class API {
+export class API<Settings extends APISettings = APISettings> {
     /** Constants for the configured/available API methods. */
     public methods = {
         get: "GET",
@@ -37,14 +37,14 @@ export class API {
     protected _headers: Record<string, string>;
 
     /** Build an API controller configured with the given settings. */
-    constructor({ baseURL = "", headers = {} }: APISettings = {}) {
+    constructor({ baseURL = "", headers = {} }: Settings = {} as Settings) {
         this._baseURL = this._cleanupStr(baseURL);
         this._headers = headers;
     }
 
     /** Create a new instance of the _API class with new defaults. */
-    create(settings: APISettings) {
-        return new API(settings);
+    create(settings: Settings) {
+        return new (Object.getPrototypeOf(this).constructor)(settings);
     }
 
     /** A wrapper around the Fetch API. */
