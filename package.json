@@ -1,6 +1,6 @@
 {
   "name": "@brr-dev/api",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A base API controller written in Typescript with handy generics and easy inheritance.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
