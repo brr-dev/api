@@ -1,6 +1,6 @@
 // ! Copyright (c) 2024, Brandon Ramirez, brr.dev
 
-import api from "./index";
+import api, { API } from "./index";
 
 describe("api tests", () => {
     beforeAll(() => {
@@ -13,5 +13,9 @@ describe("api tests", () => {
 
     it("should export an API class", () => {
         expect(api).not.toBeUndefined();
+    });
+
+    it("can create a new API controller", () => {
+        expect(api.create({ baseURL: "test" })).toBeInstanceOf(API);
     });
 });
