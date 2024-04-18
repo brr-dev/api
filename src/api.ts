@@ -15,6 +15,21 @@ export class API {
         trace: "TRACE",
     };
 
+    /** Run a GET request. */
+    get = makeFetchCaller(this.methods.get);
+
+    /** Run a POST request. */
+    post = makeFetchCallerWithBody(this.methods.post);
+
+    /** Run a PUT request. */
+    put = makeFetchCallerWithBody(this.methods.put);
+
+    /** Run a PATCH request. */
+    patch = makeFetchCallerWithBody(this.methods.patch);
+
+    /** Run a DELETE request. */
+    delete = makeFetchCaller(this.methods.delete);
+
     /** Configured base URL for the API instance. */
     protected _baseURL: string;
 
@@ -64,57 +79,6 @@ export class API {
         }
     }
 
-    /** Run a GET request. */
-    get<BodyType = unknown, ResponseType = unknown, QueryType = unknown>(
-        path: string,
-        fetchOpts: APIFetchOptions<BodyType, QueryType> = {},
-    ) {
-        fetchOpts.method ??= this.methods.get;
-        return this.fetch<BodyType, ResponseType, QueryType>(path, fetchOpts);
-    }
-
-    /** Run a POST request. */
-    post<BodyType = unknown, ResponseType = unknown, QueryType = unknown>(
-        path: string,
-        body: BodyType,
-        fetchOpts: APIFetchOptions<BodyType, QueryType> = {},
-    ) {
-        fetchOpts.method ??= this.methods.post;
-        fetchOpts.body = body;
-        return this.fetch<BodyType, ResponseType, QueryType>(path, fetchOpts);
-    }
-
-    /** Run a PUT request. */
-    put<BodyType = unknown, ResponseType = unknown, QueryType = unknown>(
-        path: string,
-        body: BodyType,
-        fetchOpts: APIFetchOptions<BodyType, QueryType> = {},
-    ) {
-        fetchOpts.method ??= this.methods.put;
-        fetchOpts.body = body;
-        return this.fetch<BodyType, ResponseType, QueryType>(path, fetchOpts);
-    }
-
-    /** Run a PATCH request. */
-    patch<BodyType = unknown, ResponseType = unknown, QueryType = unknown>(
-        path: string,
-        body: BodyType,
-        fetchOpts: APIFetchOptions<BodyType, QueryType> = {},
-    ) {
-        fetchOpts.method ??= this.methods.patch;
-        fetchOpts.body = body;
-        return this.fetch<BodyType, ResponseType, QueryType>(path, fetchOpts);
-    }
-
-    /** Run a DELETE request. */
-    delete<BodyType = unknown, ResponseType = unknown, QueryType = unknown>(
-        path: string,
-        fetchOpts: APIFetchOptions<BodyType, QueryType> = {},
-    ) {
-        fetchOpts.method ??= this.methods.delete;
-        return this.fetch<BodyType, ResponseType, QueryType>(path, fetchOpts);
-    }
-
     /** Build a URL string with the given inputs and configured defaults. */
     protected _getURL<QueryType = unknown>(
         path: string,
@@ -137,4 +101,49 @@ export class API {
     protected _cleanupStr(str: string): string {
         return str.trim().replace(/^\/|\/$/g, "");
     }
+}
+
+/**
+ * Creates a function with the following signature:
+ * `(path: string, options: APIFetchOptions) => ResponseType`
+ * This function applies a default `method` option based on the passed-in
+ * value provided to this factory function.
+ */
+function makeFetchCaller(defaultMethod: string) {
+    return function <
+        BodyType = unknown,
+        ResponseType = unknown,
+        QueryType = unknown,
+    >(
+        this: API,
+        path: string,
+        fetchOpts: APIFetchOptions<BodyType, QueryType> = {},
+    ) {
+        fetchOpts.method ??= defaultMethod;
+        return this.fetch<BodyType, ResponseType, QueryType>(path, fetchOpts);
+    };
+}
+
+/**
+ * Creates a function with the following signature:
+ * (path: string, body: BodyType, options: APIFetchOptions) => ResponseType
+ * This function applies a default `method` option based on the passed-in
+ * value provided to this factory function, and also adds the body from the
+ * function arguments onto the options when calling `fetch`.
+ */
+function makeFetchCallerWithBody(defaultMethod: string) {
+    return function <
+        BodyType = unknown,
+        ResponseType = unknown,
+        QueryType = unknown,
+    >(
+        this: API,
+        path: string,
+        body: BodyType,
+        fetchOpts: APIFetchOptions<BodyType, QueryType> = {},
+    ) {
+        fetchOpts.method ??= defaultMethod;
+        fetchOpts.body = body;
+        return this.fetch<BodyType, ResponseType, QueryType>(path, fetchOpts);
+    };
 }
