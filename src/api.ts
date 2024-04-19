@@ -31,14 +31,14 @@ export class API<Settings extends APISettings = APISettings> {
     delete = makeFetchCaller(this.methods.delete);
 
     /** Configured base URL for the API instance. */
-    protected _baseURL: string;
+    protected _baseURL?: string;
 
     /** Headers that get applied to every request. */
     protected _headers: Record<string, string>;
 
     /** Build an API controller configured with the given settings. */
-    constructor({ baseURL = "", headers = {} }: Settings = {} as Settings) {
-        this._baseURL = this._cleanupStr(baseURL);
+    constructor({ baseURL, headers = {} }: Settings = {} as Settings) {
+        this._baseURL = baseURL ? this._cleanupStr(baseURL) : undefined;
         this._headers = headers;
     }
 
@@ -105,7 +105,7 @@ export class API<Settings extends APISettings = APISettings> {
             : "";
 
         // Return our URL parts as a composed URL string.
-        return `${baseURL}/${path}${queryStr}`;
+        return `${baseURL ? baseURL + "/" : ""}${path}${queryStr}`;
     }
 
     /** Strip whitespace and trailing/leading "/" characters. */
