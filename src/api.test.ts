@@ -1,10 +1,13 @@
 // ! Copyright (c) 2024, Brandon Ramirez, brr.dev
 
 import api, { API } from "./index";
+import { spyOnFetch } from "@brr-dev/testing";
 
 describe("api tests", () => {
+    let fetchSpy: jest.SpyInstance;
+
     beforeAll(() => {
-        // Mock the Fetch API before tests, we're only testing our wrapper
+        fetchSpy = spyOnFetch();
     });
 
     afterAll(() => {

@@ -7,3 +7,4 @@ jest.config.cjs
 yarn.lock
 package-lock.json
 tsconfig.json
+.idea
