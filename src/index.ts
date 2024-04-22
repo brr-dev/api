@@ -1,9 +1,8 @@
 // ! Copyright (c) 2024, Brandon Ramirez, brr.dev
 
-import { API } from "./api";
-
-const api = new API();
+import { api } from "./api";
 
 export default api;
-export { API };
+
+export { default as API } from "./API.class";
 export * from "./api.types";
