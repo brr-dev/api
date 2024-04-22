@@ -37,7 +37,7 @@ export default class API<Settings extends APISettings = APISettings> {
     protected _headers: Record<string, string>;
 
     /** Build an API controller configured with the given settings. */
-    constructor({ baseURL, headers = {} }: Settings = {} as Settings) {
+    constructor({ baseURL, headers = {} }: APISettings = {}) {
         this._baseURL = baseURL ? this._cleanupStr(baseURL) : undefined;
         this._headers = headers;
     }
