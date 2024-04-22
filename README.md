@@ -35,7 +35,7 @@ export function addTrees(newTrees, options) {
 
 // /src/data/fakeSite/index.js
 export * as trees from "./trees.js";
-export { myAPI } from "./myAPI.js";
+export { fakeAPI as api } from "./fakeAPI.js";
 
 // /src/data/index.js
 export * as FakeSite from "./fakeSite";
@@ -49,16 +49,6 @@ const theTrees = await FakeSite.trees.getTrees();
 ```
 
 ## Public Methods
-
-All of these public `.fetch()` methods have generic type parameters so that you can optionally add more type safety to your request and response data. For example, if I'm doing a post request where I'm sending updated objects, and I'm expecting an array of all of the object ids as a response, I could create a helper function like this in my data module:
-
-```typescript
-type MyObject = { id: number; name: string };
-
-function updateObjects(...newObjects: MyObject[]) {
-    return api.post<MyObject[], number[]>("/fake/site", newObjects);
-}
-```
 
 ### `.fetch(path, options)`
 
@@ -86,6 +76,16 @@ We also have the following public methods, which are just wrappers around the AP
 -   `.put(path, body, options)`
 -   `.patch(path, body, options)`
 -   `.delete(path, options)`
+
+> All of these public `.fetch()` methods have generic type parameters so that you can optionally add more type safety to your request and response data. For example, if I'm doing a post request where I'm sending updated objects, and I'm expecting an array of all of the object ids as a response, I could create a helper function like this in my data module:
+>
+> ```typescript
+> type MyObject = { id: number; name: string };
+>
+> function updateObjects(...newObjects: MyObject[]) {
+>     return api.post<MyObject[], number[]>("/fake/site", newObjects);
+> }
+> ```
 
 ### `.create(config)`
 
