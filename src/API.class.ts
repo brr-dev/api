@@ -131,7 +131,7 @@ function makeFetchCaller(defaultMethod: string) {
         QueryType = unknown,
     >(
         this: API,
-        path: string,
+        path: string = "",
         fetchOpts: APIFetchOptions<BodyType, QueryType> = {},
     ) {
         fetchOpts.method ??= defaultMethod;
@@ -153,8 +153,8 @@ function makeFetchCallerWithBody(defaultMethod: string) {
         QueryType = unknown,
     >(
         this: API,
-        path: string,
-        body: BodyType,
+        path: string = "",
+        body?: BodyType,
         fetchOpts: APIFetchOptions<BodyType, QueryType> = {},
     ) {
         fetchOpts.method ??= defaultMethod;
