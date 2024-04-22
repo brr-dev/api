@@ -125,7 +125,7 @@ export default class API<Settings extends APISettings = APISettings> {
  * value provided to this factory function.
  */
 function makeFetchCaller(defaultMethod: string) {
-    return function <
+    return function _CallFetch<
         BodyType = unknown,
         ResponseType = unknown,
         QueryType = unknown,
@@ -147,7 +147,7 @@ function makeFetchCaller(defaultMethod: string) {
  * function arguments onto the options when calling `fetch`.
  */
 function makeFetchCallerWithBody(defaultMethod: string) {
-    return function <
+    return function _CallFetchWithBody<
         BodyType = unknown,
         ResponseType = unknown,
         QueryType = unknown,
