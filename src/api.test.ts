@@ -5,19 +5,7 @@ import API from "./API.class";
 import { mockFetchRes, spyOnFetch } from "@brr-dev/testing";
 
 describe("api tests", () => {
-    let fetchSpy: jest.SpyInstance;
-
-    beforeAll(() => {
-        fetchSpy = spyOnFetch();
-    });
-
-    afterAll(() => {
-        fetchSpy.mockRestore();
-    });
-
-    beforeEach(() => {
-        fetchSpy.mockClear();
-    });
+    const fetchSpy = spyOnFetch();
 
     describe("module", () => {
         it("exports a prebuilt instance of the API class", () => {
@@ -49,7 +37,7 @@ describe("api tests", () => {
             const url = "https://fake.site/v1/test";
 
             const response = "test-response";
-            mockFetchRes({ response });
+            mockFetchRes({ response, spy: fetchSpy });
 
             expect(fetchSpy).toHaveBeenCalledTimes(0);
 
@@ -67,7 +55,7 @@ describe("api tests", () => {
             const _expectedURL = "https://fake.site/v1/test?test=false";
 
             const response = "test-response";
-            mockFetchRes({ response });
+            mockFetchRes({ response, spy: fetchSpy });
 
             expect(fetchSpy).toHaveBeenCalledTimes(0);
 
